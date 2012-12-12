@@ -2,3 +2,5 @@
 .DS_Store
 node_modules
 test/config.js
+
+docs/_build
