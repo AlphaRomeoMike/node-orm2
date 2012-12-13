@@ -20,11 +20,8 @@ Returns a :ref:`ORM <db>` instance via *callback* once connected
 
 .. _db:
 
-ORM Instance Methods
---------------------
-
 orm.define( *name*, *properties*, *options* )
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------
 
 Define a :doc:`model`. Models represent the tables in your database.
 
@@ -57,11 +54,11 @@ Data type accepted for *properties* are:
 * validations, Object; An object of validators you wish to attach :doc:`See more <../validation>`.
 
 orm.close()
-^^^^^^^^^^^
+-----------
 
 Closes the database connection. There is no open function, you have to reconnect globally.
 
 orm.validators
-^^^^^^^^^^^^^^
+--------------
 
 Built-in validators. See :doc:`validators` for more information.
