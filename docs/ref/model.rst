@@ -15,13 +15,13 @@ model.get( *id*, *options*, *callback* )
 model.find( ... )
 -----------------
 
-This function does not care in the order of it's parameters.
+This function takes the following parameters
 
-* Number: Limit of items to return from database
-* First object: Conditions for query
-* Second object: Options (same as above)
-* Array: Ordering conditions
-* Function: Callback function which takes two parameters, ``error`` and ``items`` (items is an array of :doc:`instance` )
+* *conditions*, Object: The conditions you wish to search by
+* *options*, object: The options of the query, Optional;
+* *limit*, Integer: The maximum number of records to return per-query
+* *ordering*, list: Ordering. This will generally contain 2 elements. The first is the field to sort by and the second is the method. This is ``A`` for Ascending order and ``Z`` (default) descending order. Optional
+* *callback*, function: Called when the data is available. Takes two parameters: ``error`` and ``items`` (items is an array of :doc:`instance` )
 
 Conditions is an object which is quite limited at the moment. You can include a value to compare with (``=`` comparator) or a list (``IN`` comparator). :doc:`See More <../querying>`
 
