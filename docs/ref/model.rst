@@ -23,7 +23,7 @@ This function does not care in the order of it's parameters.
 * Array: Ordering conditions
 * Function: Callback function which takes two parameters, ``error`` and ``items`` (items is an array of :doc:`instance` )
 
-Conditions is an object which is quite limited at the moment. You can include a value to compare with (``=`` comparator) or a list (``IN`` comparator). This will be expanded in the future
+Conditions is an object which is quite limited at the moment. You can include a value to compare with (``=`` comparator) or a list (``IN`` comparator). :doc:`See More <../querying>`
 
 Options can contain more including (all of which are optional):
 
@@ -37,7 +37,7 @@ model.clear()
 
 Clears the table in the database.
 
-.. container:: warning
+.. warning::
 	
 	THIS WILL DESTROY DATA! BE CAREFUL!
 
@@ -91,7 +91,7 @@ For example::
 
 You require an intermediate table with relationshipType_id and anotherModelName_id fields at least. The table is called thisModelName_type. For the above you would have a table called person_friends with the fields friend_id and person_id.
 
-.. container:: info
+.. note::
 
 	If you are using @kennydude's version the following applies:
 	

@@ -2,6 +2,8 @@
 
 [![Build Status](https://secure.travis-ci.org/dresende/node-orm2.png)](http://travis-ci.org/dresende/node-orm2)
 
+[Documentation](https://node-orm.readthedocs.org)
+
 ## Install
 
 ```sh
