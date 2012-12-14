@@ -24,10 +24,40 @@ Similar to the above, except works for more than one item.
 
 However, it introduces some more methods than the above which are as follows:
 
-* ``instance.set<relationship>( items, function(err){ ... } )``: This replaces the whole list of items that the current instance is related to. Please note: This is not recommended if you can avoid it
-* ``instance.remove<relationship>( function(err){ .. } )``: Destroys the whole list
-* ``instance.remove<relationship>( items, function(err){ .. } )``: Removes the specified items from the list
-* ``instance.add<relationship>( item, extra, function(err){ .. } )``: Adds the specified item to the list. (Extra is optional, and you can add as many instances as you pass of the other model)
+.. js:function:: instance.set<relationship>( items, function(err){ .. } )
+
+	:param list[instance] items: replacement list
+	:param callback:
+		Called when function is finished and returns the error if there was one
+
+	This replaces the whole list of items that the current instance is related to.
+
+	.. warning::
+		This is not recommended if you can avoid id
+
+.. js:function:: instance.remove<relationship>( function(err){ .. } )
+
+	:param callback:
+		Called when the list is deleted
+
+	Removes the entire list
+
+.. js:function:: instance.remove<relationship>( items..., function(err){ .. } )
+
+	:param instance... items: Items to delete (separated arguments)
+	:param callback:
+		Called when the items are destroyed
+
+	Deletes specified items from the list
+
+.. js:function:: instance.add<relationship>( item..., extra, function(err){ .. } )
+	
+	:param instance... items: Items to add (separated arguments)
+	:param object extra: Optional object of items to add extra to the link table
+	:param callback:
+		Called when the items are added
+
+	Adds the specified items to the list
 
 Reverse Relationships
 ---------------------
@@ -41,3 +71,4 @@ To put it into more sense here is a diagram where we have said::
 	});
 
 .. image:: reverseDiagram.png
+
