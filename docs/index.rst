@@ -25,6 +25,7 @@ Contents:
    getting_started.rst
    querying.rst
    validation.rst
+   relationship.rst
    ref.rst
 
 Indices and tables

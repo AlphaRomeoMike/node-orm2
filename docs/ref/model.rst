@@ -42,13 +42,17 @@ Clears the table in the database.
 	THIS WILL DESTROY DATA! BE CAREFUL!
 
 
-model.hasOne( *type*, *another_model* )
+model.hasOne( *type*, *another_model*, *opts* )
 ---------------------------------------
 
 Relates this item to another.
 
 * *type*, String: What relationship does the current item have to *another_model*
 * *another_model*, Model: Model to relate to. Optional, if ommited it defaults to itself.
+* *opts*, Object: Options to apply to the relationship. Optional
+
+The options available to customize are:
+* *reverse* If you add this you must provide it with a value to add to the other model to get it's parent. For more information see :doc:`../relationships`
 
 For example::
 
