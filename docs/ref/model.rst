@@ -64,6 +64,14 @@ With this example it assumes ``animal`` has a field called ``owner_id`` which is
 
 If you have enabled ``autoFetch``, then instances will have a *type* property with the other model instance. Otherwise you will have a function with the name of get*type* (although *type* is capitalized for CammelCase typing).
 
+.. note::
+
+	If you are using @kennydude's version the following applies:
+
+This will also attach a reverse-lookup function to your model with the name of model.findBy *type* ( *other_model*, *extra*, *callback* )
+
+Where *extra* is optional, and *callback* takes 2 arguments, ``error``` and ``item`` (a :doc:`instance` )
+
 model.hasMany( *type*, *extra*, *another_model* )
 -------------------------------------------------
 
