@@ -33,7 +33,7 @@ However, it introduces some more methods than the above which are as follows:
 	This replaces the whole list of items that the current instance is related to.
 
 	.. warning::
-		This is not recommended if you can avoid id
+		This is not recommended if you can avoid it
 
 .. js:function:: instance.remove<relationship>( function(err){ .. } )
 
