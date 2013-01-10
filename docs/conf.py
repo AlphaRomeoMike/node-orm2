@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Node ORM2'
-copyright = u'2012, Joe Simpson'
+copyright = u'2013, Joe Simpson'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
