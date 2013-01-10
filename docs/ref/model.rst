@@ -111,3 +111,12 @@ You require an intermediate table with relationshipType_id and anotherModelName_
 This will also attach a reverse-lookup function to your model with the name of model.findBy *type* ( *other_model*, *extra*, *callback* )
 
 Where *extra* is optional, and *callback* takes 2 arguments, ``error``` and ``items`` (array of :doc:`instance` )
+
+model.createSQL()
+-----------------
+
+Returns a string with the ``CREATE TABLE`` syntax that should be used for the current database.
+
+.. note::
+	
+	If the current database is non-relational this may not return anything ("tables" are created on-demand)
