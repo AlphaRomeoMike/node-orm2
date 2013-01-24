@@ -7,7 +7,7 @@
 ## Install
 
 ```sh
-npm install orm@2.0.0-alpha6
+npm install orm@2.0.0-alpha8
 ```
 
 Despite the alpha tag, this is the recommended version for new applications.
@@ -17,6 +17,13 @@ Despite the alpha tag, this is the recommended version for new applications.
 - MySQL
 - PostgreSQL
 - SQLite
+
+## Features
+
+- Create Models, sync, drop, bulk create, get, find, remove, count
+- Create Model associations, find, check, create and remove
+- Define custom validations (several builtin validations, check instance properties before saving)
+- Instance singleton (table rows fetched twice are the same object, changes to one change all)
 
 ## Introduction
 
@@ -69,6 +76,83 @@ A Model is a structure binded to one or more tables, depending on the associatio
 
 After defining a Model you can get a specific element or find one or more based on some conditions.
 
+## Defining Models
+
+To define a model, you use the reference to the database connection and call `define`. The function will define a Model
+and will return it to you. You can get it later by it's id directly from the database connection so you don't actually
+need to store a reference to it.
+
+```js
+var Person = db.define('person', {        // 'person' will be the table in the database as well as the model id
+	// properties
+	name    : String,                     // you can use native objects to define the property type
+	surname : { type: "text", size: 50 }  // or you can be specific and define aditional options
+}, {
+	// options (optional)
+});
+```
+
+## Loading Models
+
+If you prefer to have your models defined in separated files, you can define them in a function inside a module and
+export the function has the entire module. You can have cascading loads.
+
+```js
+// your main file (after connecting)
+db.load("./models", function (err) {
+    // loaded!
+    var Person = db.models.person;
+    var Pet    = db.models.pet;
+});
+
+// models.js
+module.exports = function (db, cb) {
+    db.load("./models-extra", function (err) {
+        if (err) {
+            return cb(err);
+        }
+
+        db.define('person', {
+            name : String
+        });
+
+        return cb();
+    });
+};
+
+// models-extra.js
+module.exports = function (db, cb) {
+    db.define('pet', {
+        name : String
+    });
+
+    return cb();
+};
+```
+
+## Synching Models
+
+If you don't have the tables on the database you have to call the `.sync()` on every Model. This will just create the
+tables necessary for your Model. If you have more than one Model you can call `.sync()` directly on the database
+connection to syncronize all Models.
+
+```js
+// db.sync() can also be used
+Person.sync(function (err) {
+	!err && console.log("done!");
+});
+```
+
+## Dropping Models
+
+If you want to drop a Model and remove all tables you can use the `.drop()` method.
+
+```js
+Person.drop(function (err) {
+	!err && console.log("person model no longer exists!");
+});
+```
+
 ## Finding Items
 
 ### Model.get(id, [ options ], cb)
@@ -111,6 +195,27 @@ Person.find({ surname: "Doe" }, { offset: 2 }, function (err, people) {
 });
 ```
 
+### Model.count([ conditions, ] cb)
+
+If you just want to count the number of items that match a condition you can just use `.count()` instead of finding all
+of them and counting. This will actually tell the database server to do a count, the count is not done in javascript.
+
+```js
+Person.count({ surname: "Doe" }, function (err, count) {
+	console.log("We have %d Does in our db", count);
+});
+```
+
+### Model.exists([ conditions, ] cb)
+
+Similar to `.count()`, this method just checks if the count is greater than zero or not.
+
+```js
+Person.exists({ surname: "Doe" }, function (err, exists) {
+	console.log("We %s Does in our db", exists ? "have" : "don't have");
+});
+```
+
 #### Available options
 
 - `offset`: discards the first `N` elements
@@ -126,6 +231,46 @@ Person.find({ surname: "Doe" }).limit(3).offset(2).only("name", "surname").run(f
     // finds people with surname='Doe', skips first 2 and limits to 3 elements,
     // returning only 'name' and 'surname' properties
 });
+```
+
+You can also chain and just get the count in the end. In this case, offset, limit and order are ignored.
+
+```js
+Person.find({ surname: "Doe" }).count(function (err, people) {
+    // people = number of people with surname="Doe"
+});
+```
+
+Also available is the option to remove the selected items.
+
+```js
+Person.find({ surname: "Doe" }).remove(function (err) {
+    // Does gone..
+});
+```
+
+#### Conditions
+
+Conditions are defined as an object where every key is a property (table column). All keys are supposed
+to be concatenated by the logical `AND`. Values are considered to match exactly, unless you're passing
+an `Array`. In this case it is considered a list to compare the property with.
+
+```js
+{ col1: 123, col2: "foo" } // `col1` = 123 AND `col2` = 'foo'
+{ col1: [ 1, 3, 5 ] } // `col1` IN (1, 3, 5)
+```
+
+If you need other comparisons, you have to use a special object created by some helper functions. Here are
+a few examples to describe it:
+
+```js
+{ col1: orm.eq(123) } // `col1` = 123 (default)
+{ col1: orm.ne(123) } // `col1` <> 123
+{ col1: orm.gt(123) } // `col1` > 123
+{ col1: orm.gte(123) } // `col1` >= 123
+{ col1: orm.lt(123) } // `col1` < 123
+{ col1: orm.lte(123) } // `col1` <= 123
+{ col1: orm.between(123, 456) } // `col1` BETWEEN 123 AND 456
 ```
 
 ## Associations
