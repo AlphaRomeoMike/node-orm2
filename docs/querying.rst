@@ -40,7 +40,7 @@ Those operators are:
 
 If you want to use ``IN`` you present a list of values which is done like so::
 	
-	mode.find({
+	model.find({
 		field : [ "item 1", "item 2" ]
 	})
 
